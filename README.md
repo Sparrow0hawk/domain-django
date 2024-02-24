@@ -18,12 +18,15 @@ To use this project you will need:
    
    # install dependencies
    pip install -r requirements.txt
+   
+   # install playwright browsers
+   playwright install
    ```
 3. Start Django app on http://127.0.0.1:8000
    ```bash
    python manage.py runserver
    ```
-4. Run Django tests
+4. Run tests
    ```bash
-   python manage.py test
+   make test
    ```
