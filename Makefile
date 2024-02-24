@@ -1,16 +1,19 @@
+packages = mysite polls tests
+bin = .venv/bin
+
 format-check:
-	.venv/bin/black --check polls mysite tests
+	$(bin)/black --check $(packages)
 
 format:
-	.venv/bin/black polls mysite tests
+	$(bin)/black $(packages)
 
 ruff:
-	.venv/bin/ruff check
+	$(bin)/ruff check
 
 ruff-fix:
-	.venv/bin/ruff --fix
+	$(bin)/ruff --fix
 
 test:
-	.venv/bin/pytest
+	$(bin)/pytest
 
 verify: format-check ruff test
