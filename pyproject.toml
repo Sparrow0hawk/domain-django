@@ -19,6 +19,8 @@ dependencies = [
 [project.optional-dependencies]
 dev = [
     "black",
+    "django-stubs",
+    "mypy",
     "pytest",
     "pytest-django",
     "pytest-playwright",
@@ -31,3 +33,6 @@ name = "mysite"
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "mysite.settings"
+
+[tool.mypy]
+strict = true

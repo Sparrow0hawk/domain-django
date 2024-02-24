@@ -7,6 +7,9 @@ format-check:
 format:
 	$(bin)/black $(packages)
 
+mypy:
+	$(bin)/mypy $(packages)
+
 ruff:
 	$(bin)/ruff check
 
