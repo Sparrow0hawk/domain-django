@@ -16,8 +16,8 @@ To use this project you will need:
    # activate virtual environment
    . .venv/bin/activate
    
-   # install dependencies
-   pip install -r requirements.txt
+   # install dependencies including dev dependencies
+   pip install .[dev]
    
    # install playwright browsers
    playwright install

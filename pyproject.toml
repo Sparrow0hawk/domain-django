@@ -1,0 +1,33 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name = "django-minimal"
+version = "0.1.0"
+authors = [
+    {name = "Alex Coleman", email = "alexjcoleman@gmail.com"},
+]
+description = "Minimal django project"
+readme = "README.md"
+requires-python = ">=3.12"
+
+dependencies = [
+    "Django",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "pytest",
+    "pytest-django",
+    "pytest-playwright",
+    "playwright",
+    "ruff"
+]
+
+[tool.flit.module]
+name = "mysite"
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "mysite.settings"
