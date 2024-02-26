@@ -19,4 +19,4 @@ ruff-fix:
 test:
 	$(bin)/pytest
 
-verify: format-check ruff test
+verify: format-check ruff mypy test

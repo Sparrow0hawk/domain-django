@@ -30,3 +30,7 @@ To use this project you will need:
    ```bash
    make test
    ```
+5. Run full build
+   ```bash
+   make verify
+   ```
