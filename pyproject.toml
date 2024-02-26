@@ -31,6 +31,9 @@ dev = [
 [tool.flit.module]
 name = "mysite"
 
+[tool.black]
+line-length = 120
+
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "mysite.settings"
 
