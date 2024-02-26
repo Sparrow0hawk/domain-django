@@ -4,7 +4,7 @@ from polls.domain.questions import QuestionRepository, Question
 
 
 class MemoryQuestionRepository(QuestionRepository):
-    def __init__(self):
+    def __init__(self) -> None:
         self._questions: Dict[int, Question] = {}
 
     def add(self, *questions: Question) -> None:

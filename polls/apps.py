@@ -9,7 +9,7 @@ class PollsConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
     name = "polls"
 
-    def ready(self):
+    def ready(self) -> None:
         from polls.infrastructure.questions import DatabaseQuestionRepository
 
         def _bindings(binder: Binder) -> None:

@@ -30,9 +30,12 @@ def questions(request: HttpRequest, questions_repository: QuestionRepository) ->
         questions_repr = [QuestionRepr(**element) for element in payload]
         questions_repository.add(*[question_repr.to_domain() for question_repr in questions_repr])
         return HttpResponse(status=201)
+    else:
+        return HttpResponse(status=405)
 
 
 @inject.autoparams("question_repository")
 def question_details(request: HttpRequest, question_id: int, question_repository: QuestionRepository) -> HttpResponse:
     question = question_repository.get(question_id)
+    assert question
     return render(request, "polls/details.html", {"question_text": question.question_text})

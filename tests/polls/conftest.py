@@ -1,3 +1,5 @@
+from typing import Generator
+
 import inject
 import pytest
 from inject import Binder
@@ -7,14 +9,14 @@ from tests.polls.fakes import MemoryQuestionRepository
 
 
 @pytest.fixture(name="config")
-def config_fixture() -> None:
+def config_fixture() -> Generator[None, None, None]:
     inject.clear_and_configure(_bindings)
     yield
     inject.clear()
 
 
 @pytest.fixture(name="questions")
-def questions_fixture() -> QuestionRepository:
+def questions_fixture() -> Generator[QuestionRepository, None, None]:
     questions: QuestionRepository = inject.instance(QuestionRepository)
     yield questions
 

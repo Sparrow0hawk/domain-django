@@ -27,7 +27,8 @@ dev = [
     "pytest-playwright",
     "playwright",
     "requests",
-    "ruff"
+    "ruff",
+    "types-requests"
 ]
 
 [tool.flit.module]
@@ -41,3 +42,7 @@ DJANGO_SETTINGS_MODULE = "mysite.settings"
 
 [tool.mypy]
 strict = true
+plugins = ["mypy_django_plugin.main"]
+
+[tool.django-stubs]
+django_settings_module = "mysite.settings"
