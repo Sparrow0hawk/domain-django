@@ -1,5 +1,6 @@
+from __future__ import annotations
 import json
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 
 import inject
 from django.http import HttpRequest, HttpResponse
@@ -34,8 +35,19 @@ def questions(request: HttpRequest, questions_repository: QuestionRepository) ->
         return HttpResponse(status=405)
 
 
+@dataclass(frozen=True)
+class QuestionDetailContext:
+    question_text: str
+
+    @classmethod
+    def from_domain(cls, question: Question) -> QuestionDetailContext:
+        return cls(question_text=question.question_text)
+
+
 @inject.autoparams("question_repository")
 def question_details(request: HttpRequest, question_id: int, question_repository: QuestionRepository) -> HttpResponse:
     question = question_repository.get(question_id)
     assert question
-    return render(request, "polls/details.html", {"question_text": question.question_text})
+
+    context = QuestionDetailContext.from_domain(question)
+    return render(request, "polls/details.html", asdict(context))
