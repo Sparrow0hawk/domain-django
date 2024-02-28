@@ -1,13 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
- <head>
-     <title>Polls</title>
- </head>
-<body>
+{% extends 'polls/base.html' %}
 
-<main>
+{% block content %}
 <h1>{{ question_text }}</h1>
-</main>
-
-</body>
-</html>
+{% endblock %}
