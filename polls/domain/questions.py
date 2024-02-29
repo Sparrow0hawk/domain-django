@@ -5,7 +5,7 @@ class Question:
 
 
 class QuestionRepository:
-    def add(self, question: Question) -> None:
+    def add(self, *question: Question) -> None:
         raise NotImplementedError()
 
     def get(self, id_: int) -> Question | None:

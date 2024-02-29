@@ -3,9 +3,10 @@ from polls.models import QuestionEntity
 
 
 class DatabaseQuestionRepository(QuestionRepository):
-    def add(self, question: Question) -> None:
-        question_entity = self._domain_to_entity(question)
-        question_entity.save()
+    def add(self, *questions: Question) -> None:
+        for question in questions:
+            question_entity = self._domain_to_entity(question)
+            question_entity.save()
 
     def get(self, id_: int) -> Question | None:
         return self._entity_to_domain(QuestionEntity.objects.get(id=id_))
