@@ -23,6 +23,6 @@ import polls.views
 urlpatterns = [
     path("", polls.views.index, name="index"),
     path("<int:question_id>/", polls.views.question_details, name="question_details"),
-    path("polls/questions", polls.views.questions, name="polls_questions"),
+    path("polls/questions", polls.views.add_questions, name="polls_questions"),
     path("admin/", admin.site.urls),
 ]

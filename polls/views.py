@@ -25,7 +25,7 @@ class QuestionRepr:
 
 @csrf_exempt
 @inject.autoparams("questions_repository")
-def questions(request: HttpRequest, questions_repository: QuestionRepository) -> HttpResponse:
+def add_questions(request: HttpRequest, questions_repository: QuestionRepository) -> HttpResponse:
     if request.method == "POST":
         payload = json.loads(request.body)
         questions_repr = [QuestionRepr(**element) for element in payload]
