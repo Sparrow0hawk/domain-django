@@ -29,8 +29,8 @@ class TestDatabaseQuestionRepository:
         )
 
     def test_get_question(self, questions_repository: DatabaseQuestionRepository) -> None:
-        question = QuestionEntity(id=1, question_text="Who are you?")
-        question.save()
+        question_entity = QuestionEntity(id=1, question_text="Who are you?")
+        question_entity.save()
 
         question1 = questions_repository.get(1)
         assert question1 and question1.id == 1 and question1.question_text == "Who are you?"
