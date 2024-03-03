@@ -10,8 +10,22 @@ from django.views.decorators.csrf import csrf_exempt
 from polls.domain.questions import Question, QuestionRepository
 
 
-def index(request: HttpRequest) -> HttpResponse:
-    return HttpResponse("<h1>Hello world!</h1>")
+@dataclass
+class QuestionListContext:
+    questions: list[str]
+
+    @classmethod
+    def from_domain(cls, questions_list: list[Question]) -> QuestionListContext:
+        return cls(questions=[question.question_text for question in questions_list])
+
+
+@inject.autoparams("questions")
+def index(request: HttpRequest, questions: QuestionRepository) -> HttpResponse:
+    all_questions = questions.get_all()
+
+    context = QuestionListContext.from_domain(all_questions)
+
+    return render(request, "polls/index.html", asdict(context))
 
 
 @dataclass

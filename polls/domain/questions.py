@@ -10,3 +10,6 @@ class QuestionRepository:
 
     def get(self, id_: int) -> Question | None:
         raise NotImplementedError()
+
+    def get_all(self) -> list[Question]:
+        raise NotImplementedError()

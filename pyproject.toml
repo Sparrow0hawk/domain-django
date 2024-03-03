@@ -19,6 +19,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = [
+    "beautifulsoup4",
     "black",
     "django-stubs",
     "mypy",
@@ -28,7 +29,8 @@ dev = [
     "playwright",
     "requests",
     "ruff",
-    "types-requests"
+    " types-beautifulsoup4",
+    "types-requests",
 ]
 
 [tool.flit.module]

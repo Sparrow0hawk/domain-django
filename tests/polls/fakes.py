@@ -13,3 +13,6 @@ class MemoryQuestionRepository(QuestionRepository):
 
     def get(self, id_: int) -> Question | None:
         return self._questions.get(id_)
+
+    def get_all(self) -> list[Question]:
+        return [question for question in self._questions.values()]

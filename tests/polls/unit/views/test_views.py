@@ -1,5 +1,17 @@
 from polls.domain.questions import Question
-from polls.views import QuestionRepr, QuestionDetailContext
+from polls.views import QuestionRepr, QuestionDetailContext, QuestionListContext
+
+
+class TestQuestionListContext:
+    def test_from_domain(self) -> None:
+        questions_list = [
+            Question(id_=1, question_text="Who are you?"),
+            Question(id_=2, question_text="What is your favourite sandwich?"),
+        ]
+
+        context = QuestionListContext.from_domain(questions_list)
+
+        assert context.questions[0] == "Who are you?" and context.questions[1] == "What is your favourite sandwich?"
 
 
 class TestQuestionRepr:
