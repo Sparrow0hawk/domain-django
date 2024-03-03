@@ -41,6 +41,7 @@ line-length = 120
 
 [tool.pytest.ini_options]
 DJANGO_SETTINGS_MODULE = "mysite.settings"
+addopts = "--screenshot only-on-failure"
 
 [tool.mypy]
 strict = true
