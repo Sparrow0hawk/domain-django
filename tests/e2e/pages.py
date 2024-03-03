@@ -28,6 +28,9 @@ class PollsPageTableComponent:
     def __iter__(self) -> Iterator[PollsPageTableCellComponent]:
         return (PollsPageTableCellComponent(row) for row in self._table.get_by_role("row").all()[1:])
 
+    def __getitem__(self, item: str) -> PollsPageTableCellComponent:
+        return next(question for question in self if question.table_cell == item)
+
     def questions(self) -> list[str | None]:
         return [cell.table_cell for cell in self]
 
@@ -39,6 +42,10 @@ class PollsPageTableCellComponent:
     @property
     def table_cell(self) -> str | None:
         return self._cell.text_content()
+
+    def open(self) -> QuestionDetailPage:
+        self._cell.get_by_role("link").click()
+        return QuestionDetailPage(self._cell.page)
 
 
 class QuestionDetailPage:

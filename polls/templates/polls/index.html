@@ -12,7 +12,7 @@
         <tbody>
         {% for question in questions %}
             <tr>
-                <td>{{ question }}</td>
+                <td><a href="{% url 'question_details' question_id=question.id %}">{{ question.question }}</a></td>
             </tr>
         {% endfor %}
         </tbody>

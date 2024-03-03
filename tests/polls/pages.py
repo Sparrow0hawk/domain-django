@@ -26,12 +26,18 @@ class PollsPageTableComponent:
     def questions(self) -> list[str | None]:
         return [cell.table_cell for cell in self]
 
+    def question_links(self) -> list[str | list[str] | None]:
+        return [cell.question_url for cell in self]
+
 
 class PollsPageTableCellComponent:
     def __init__(self, row: Tag):
         cell = row.select_one("td")
         assert cell
         self._cell = cell
+        question_url = cell.select_one("a")
+        assert question_url
+        self.question_url = question_url.get("href")
 
     @property
     def table_cell(self) -> str | None:

@@ -12,11 +12,21 @@ from polls.domain.questions import Question, QuestionRepository
 
 @dataclass
 class QuestionListContext:
-    questions: list[str]
+    questions: list[QuestionListRowContext]
 
     @classmethod
     def from_domain(cls, questions_list: list[Question]) -> QuestionListContext:
-        return cls(questions=[question.question_text for question in questions_list])
+        return cls(questions=[QuestionListRowContext.from_domain(question) for question in questions_list])
+
+
+@dataclass
+class QuestionListRowContext:
+    id: int
+    question: str
+
+    @classmethod
+    def from_domain(cls, question: Question) -> QuestionListRowContext:
+        return cls(id=question.id, question=question.question_text)
 
 
 @inject.autoparams("questions")

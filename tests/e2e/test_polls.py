@@ -26,6 +26,18 @@ def test_index_shows_table(live_server: LiveServer, page: Page) -> None:
     ]
 
 
+def test_index_shows_poll(live_server: LiveServer, page: Page) -> None:
+    json = [
+        asdict(QuestionRepr(id=1, question_text="What is the best sandwich?")),
+    ]
+    response = requests.post(f"{live_server.url}/polls/questions", json=json, timeout=10)
+    response.raise_for_status()
+
+    question_detail_page = PollsPage.open(page, live_server.url).table["What is the best sandwich?"].open()
+
+    assert question_detail_page.question == "What is the best sandwich?"
+
+
 def test_poll_shows_question(live_server: LiveServer, page: Page) -> None:
     json = [asdict(QuestionRepr(id=1, question_text="What is the best sandwich?"))]
     response = requests.post(f"{live_server.url}/polls/questions", json=json, timeout=10)

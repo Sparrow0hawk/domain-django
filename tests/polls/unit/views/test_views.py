@@ -1,5 +1,5 @@
 from polls.domain.questions import Question
-from polls.views import QuestionRepr, QuestionDetailContext, QuestionListContext
+from polls.views import QuestionRepr, QuestionDetailContext, QuestionListContext, QuestionListRowContext
 
 
 class TestQuestionListContext:
@@ -11,7 +11,19 @@ class TestQuestionListContext:
 
         context = QuestionListContext.from_domain(questions_list)
 
-        assert context.questions[0] == "Who are you?" and context.questions[1] == "What is your favourite sandwich?"
+        assert (
+            context.questions[0].id == 1
+            and context.questions[0].question == "Who are you?"
+            and context.questions[1].id == 2
+            and context.questions[1].question == "What is your favourite sandwich?"
+        )
+
+
+class TestQuestionListRowContext:
+    def test_from_domain(self) -> None:
+        context = QuestionListRowContext.from_domain(Question(id_=1, question_text="Who are you?"))
+
+        assert context.id == 1 and context.question == "Who are you?"
 
 
 class TestQuestionRepr:
