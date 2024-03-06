@@ -29,7 +29,7 @@ dev = [
     "playwright",
     "requests",
     "ruff",
-    " types-beautifulsoup4",
+    "types-beautifulsoup4",
     "types-requests",
 ]
 
