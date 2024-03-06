@@ -2,19 +2,22 @@
 
 {% block content %}
     <h1>Polls</h1>
-    <p>Welcome to polls!</p>
-    <table>
-        <thead>
-        <tr>
-            <th>Poll Question</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for question in questions %}
+    {% if questions %}
+        <table>
+            <thead>
             <tr>
-                <td><a href="{% url 'question_details' question_id=question.id %}">{{ question.question }}</a></td>
+                <th>Poll Question</th>
             </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <td><a href="{% url 'question_details' question_id=question.id %}">{{ question.question }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No questions to view.</p>
+    {% endif %}
 {% endblock %}

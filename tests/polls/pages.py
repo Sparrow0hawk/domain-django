@@ -12,8 +12,9 @@ class PollsPage:
     def __init__(self, response: _MonkeyPatchedWSGIResponse) -> None:
         self._soup = BeautifulSoup(response.content, "html.parser")
         table = self._soup.select_one("main table")
-        assert table
-        self.table = PollsPageTableComponent(table)
+        self.table = PollsPageTableComponent(table) if table else None
+        paragraph = self._soup.select_one("main h1 ~ p")
+        self.no_questions_message = paragraph.string == "No questions to view." if paragraph else None
 
 
 class PollsPageTableComponent:
