@@ -1,7 +1,13 @@
 
+# python
 .venv
 **__pycache__**
 
+# IDE
 .idea
 
+# database
 *.sqlite3
+
+# secrets
+.env

@@ -57,3 +57,20 @@ To use this project you will need:
    ```bash
    make verify
    ```
+
+## Docker
+
+You can also build and run the app using Docker.
+
+1. Build the container
+   ```bash
+   docker build . -t mysite-minimal
+   ```
+2. Run the app and view it at http://127.0.0.1:8000/
+   ```bash
+   docker run -p 8000:8000 mysite-minimal
+   ```
+3. Run with Docker compose to also test with Postgres connection
+   ```bash
+   docker compose up
+   ```

@@ -1,0 +1,22 @@
+services:
+
+  app:
+    build: .
+    env_file: .env
+    environment:
+      DJANGO_SETTINGS_MODULE: "mysite.settings.production"
+      DB_HOST: "database"
+    ports:
+      - "8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
+
+  database:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: polls
+      POSTGRES_PASSWORD: password
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER
+      interval: 5s
