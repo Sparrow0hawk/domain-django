@@ -5,7 +5,7 @@ services:
     env_file: .env
     environment:
       DJANGO_SETTINGS_MODULE: "mysite.settings.production"
-      DB_HOST: "database"
+      DATABASE_URL: "postgres://polls:password@database:5432/polls"
     ports:
       - "8000:8000"
     depends_on:
