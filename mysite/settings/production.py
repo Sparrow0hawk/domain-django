@@ -1,4 +1,5 @@
 import os
+from typing import List
 
 import dj_database_url
 from dotenv import load_dotenv
@@ -9,7 +10,7 @@ load_dotenv()
 
 DEBUG = False
 
-ALLOWED_HOSTS: List[str] = ["django-polls.fly.dev"]
+ALLOWED_HOSTS.append("django-polls.fly.dev")
 
 CSRF_TRUSTED_ORIGINS: List[str] = ["django-polls"]
 

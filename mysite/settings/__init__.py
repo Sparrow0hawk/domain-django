@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
-from typing import List
 
 import dj_database_url
 
@@ -28,7 +27,7 @@ SECRET_KEY = "django-insecure-4-y)4i4d46!a*4@%4m#$1xx4cgq*3^1i)n84^#z+&0s0q*m%_s
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS: List[str] = []
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
