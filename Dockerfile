@@ -11,6 +11,7 @@ WORKDIR /code
 
 COPY . /code
 RUN pip3 install .
+RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 

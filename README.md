@@ -22,11 +22,15 @@ To use this project you will need:
    # install playwright browsers
    playwright install
    ```
-3. Start Django app on http://127.0.0.1:8000
+3. Run Django command to collect static assets
+   ```bash
+   .venv/bin/python manage.py collectstatic
+   ```
+4. Start Django app on http://127.0.0.1:8000
    ```bash
    python manage.py runserver
    ```
-4. Use cURL to POST data to local app
+5. Use cURL to POST data to local app
    ```bash
    curl -X POST --location "http://localhost:8000/polls/questions" \
     -H "Accept: application/json" \
@@ -49,11 +53,11 @@ To use this project you will need:
            }
        ]'
    ```
-4. Run tests
+6R. Run tests
    ```bash
    make test
    ```
-5. Run full build
+7. Run full build
    ```bash
    make verify
    ```
