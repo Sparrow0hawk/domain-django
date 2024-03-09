@@ -1,7 +1,7 @@
+fly.toml
+.git/
 *.sqlite3
-
 .venv
-.git
 .idea
 .mypy_cache
 .ruff_cache

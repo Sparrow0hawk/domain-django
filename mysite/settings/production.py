@@ -7,7 +7,11 @@ from mysite.settings import *
 
 load_dotenv()
 
-DEBUG = True
+DEBUG = False
+
+ALLOWED_HOSTS: List[str] = ["django-polls.fly.dev"]
+
+CSRF_TRUSTED_ORIGINS: List[str] = ["django-polls"]
 
 SECRET_KEY = os.environ["SECRET_KEY"]
 

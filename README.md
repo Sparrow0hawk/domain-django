@@ -74,3 +74,13 @@ You can also build and run the app using Docker.
    ```bash
    docker compose up
    ```
+
+## Fly deploy
+
+To deploy this to [fly.io](https://fly.io):
+
+1. Use `fly launch` to detect Django project and deploy database
+   ```bash
+   fly launch
+   ```
+   Ignore overwrites for `.dockerignore`, `Dockerfile` and tweak settings to set up a Postgres database (Fly Postgres, development)

@@ -1,12 +1,17 @@
-FROM python:3.12-slim
+ARG PYTHON_VERSION=3.12-slim-bullseye
+
+FROM python:${PYTHON_VERSION}
+
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+RUN mkdir -p /code
+
+WORKDIR /code
+
+COPY . /code
+RUN pip3 install .
 
 EXPOSE 8000
 
-ENV DJANGO_SETTINGS_MODULE="mysite.settings"
-
-WORKDIR /app
-COPY . /app
-
-RUN pip3 install .
-
-CMD ["sh", "-c", "gunicorn --bind 0.0.0.0:8000 mysite.wsgi"]
+CMD ["gunicorn", "--bind", ":8000", "--workers", "2", "mysite.wsgi"]
