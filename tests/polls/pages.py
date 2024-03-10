@@ -8,9 +8,14 @@ if TYPE_CHECKING:
     from django.test.client import _MonkeyPatchedWSGIResponse
 
 
-class PollsPage:
+class BasePage:
     def __init__(self, response: _MonkeyPatchedWSGIResponse) -> None:
         self._soup = BeautifulSoup(response.content, "html.parser")
+
+
+class PollsPage(BasePage):
+    def __init__(self, response: _MonkeyPatchedWSGIResponse) -> None:
+        super().__init__(response)
         table = self._soup.select_one("main table")
         self.table = PollsPageTableComponent(table) if table else None
         paragraph = self._soup.select_one("main h1 ~ p")
@@ -43,3 +48,11 @@ class PollsPageTableCellComponent:
     @property
     def table_cell(self) -> str | None:
         return self._cell.string
+
+
+class QuestionDetailPage(BasePage):
+    def __init__(self, response: _MonkeyPatchedWSGIResponse):
+        super().__init__(response)
+        question = self._soup.select_one("main h1")
+        assert question
+        self.question = question.string

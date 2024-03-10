@@ -2,7 +2,7 @@ from django.test import Client
 from django.urls import reverse
 
 from polls.domain.questions import QuestionRepository, Question
-from tests.polls.pages import PollsPage
+from tests.polls.pages import PollsPage, QuestionDetailPage
 
 
 def test_index_shows_questions(config: None, client: Client, questions: QuestionRepository) -> None:
@@ -48,7 +48,9 @@ def test_question_details_shows_question(config: None, client: Client, questions
     url = reverse("question_details", args=(1,))
     response = client.get(url)
 
-    assert b"<h1>What is your favourite sandwich?</h1>" in response.content
+    question_detail_page = QuestionDetailPage(response)
+
+    assert question_detail_page.question == "What is your favourite sandwich?"
 
 
 class TestPollsAPI:
