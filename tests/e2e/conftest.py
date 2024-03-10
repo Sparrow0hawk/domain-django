@@ -1,6 +1,7 @@
 import os
 from typing import Generator, Any
 
+import django.conf
 import pytest
 from playwright.sync_api import BrowserContext
 from pytest_django.live_server_helper import LiveServer
@@ -16,6 +17,11 @@ def browser_context_fixture(
 ) -> Generator[BrowserContext, None, None]:
     context.set_default_timeout(5_000)
     yield context
+
+
+@pytest.fixture(name="settings_fixture", autouse=True)
+def settings(settings: django.conf.LazySettings) -> None:
+    settings.DEBUG_PROPAGATE_EXCEPTIONS = True
 
 
 @pytest.fixture(name="app_client")
