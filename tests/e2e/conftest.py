@@ -1,8 +1,11 @@
 import os
-from typing import Generator
+from typing import Generator, Any
 
 import pytest
 from playwright.sync_api import BrowserContext
+from pytest_django.live_server_helper import LiveServer
+
+from tests.e2e.client import AppClient
 
 os.environ.setdefault("DJANGO_ALLOW_ASYNC_UNSAFE", "true")
 
@@ -13,3 +16,10 @@ def browser_context_fixture(
 ) -> Generator[BrowserContext, None, None]:
     context.set_default_timeout(5_000)
     yield context
+
+
+@pytest.fixture(name="app_client")
+def app_client_fixture(live_server: LiveServer) -> Generator[AppClient, Any, Any]:
+    app_client = AppClient(live_server.url)
+    yield app_client
+    app_client.clear_questions()
