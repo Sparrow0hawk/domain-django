@@ -14,6 +14,9 @@ class DatabaseQuestionRepository(QuestionRepository):
     def get_all(self) -> list[Question]:
         return [self._entity_to_domain(question) for question in QuestionEntity.objects.all()]
 
+    def clear(self) -> None:
+        QuestionEntity.objects.all().delete()
+
     @staticmethod
     def _entity_to_domain(question_entity: QuestionEntity) -> Question:
         return Question(id_=question_entity.id, question_text=question_entity.question_text)

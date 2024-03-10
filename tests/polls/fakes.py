@@ -16,3 +16,6 @@ class MemoryQuestionRepository(QuestionRepository):
 
     def get_all(self) -> list[Question]:
         return [question for question in self._questions.values()]
+
+    def clear(self) -> None:
+        self._questions.clear()

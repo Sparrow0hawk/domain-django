@@ -49,12 +49,15 @@ class QuestionRepr:
 
 @csrf_exempt
 @inject.autoparams("questions")
-def add_questions(request: HttpRequest, questions: QuestionRepository) -> HttpResponse:
+def questions_api(request: HttpRequest, questions: QuestionRepository) -> HttpResponse:
     if request.method == "POST":
         payload = json.loads(request.body)
         questions_repr = [QuestionRepr(**element) for element in payload]
         questions.add(*[question_repr.to_domain() for question_repr in questions_repr])
         return HttpResponse(status=201)
+    elif request.method == "DELETE":
+        questions.clear()
+        return HttpResponse(status=204)
     else:
         return HttpResponse(status=405)
 

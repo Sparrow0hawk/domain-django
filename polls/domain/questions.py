@@ -13,3 +13,6 @@ class QuestionRepository:
 
     def get_all(self) -> list[Question]:
         raise NotImplementedError()
+
+    def clear(self) -> None:
+        raise NotImplementedError()

@@ -58,3 +58,11 @@ class TestDatabaseQuestionRepository:
             and question3.id == 3
             and question3.question_text == "What is your favourite colour?"
         )
+
+    def test_clear_questions(self, questions_repository: DatabaseQuestionRepository) -> None:
+        question_entity = QuestionEntity(id=1, question_text="Who are you?")
+        question_entity.save()
+
+        questions_repository.clear()
+
+        assert not questions_repository.get_all()

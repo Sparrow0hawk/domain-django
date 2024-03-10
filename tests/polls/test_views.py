@@ -63,3 +63,11 @@ class TestPollsAPI:
         assert response.status_code == 201
         question1 = questions.get(1)
         assert question1 and question1.id == 1 and question1.question_text == "What is your favourite sandwich?"
+
+    def test_polls_can_clear_question(self, config: None, client: Client, questions: QuestionRepository) -> None:
+        questions.add(Question(id_=1, question_text="What is your favourite sandwich?"))
+        url = reverse("polls_questions")
+        response = client.delete(url)
+
+        assert response.status_code == 204
+        assert not questions.get_all()
