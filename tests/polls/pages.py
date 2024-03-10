@@ -56,3 +56,28 @@ class QuestionDetailPage(BasePage):
         question = self._soup.select_one("main h1")
         assert question
         self.question = question.string
+        choices = self._soup.select_one("ul")
+        self.choices = QuestionDetailListComponent(choices) if choices else None
+        paragraph = self._soup.select_one("p")
+        self.no_choices_message_visible = (
+            (paragraph.string or "").strip() == "This poll has no choices." if paragraph else False
+        )
+
+
+class QuestionDetailListComponent:
+    def __init__(self, list_: Tag):
+        self._list = list_.select("li")
+
+    def __iter__(self) -> Iterator[ListItemComponent]:
+        return (ListItemComponent(item) for item in self._list)
+
+    def __call__(self) -> list[str | None]:
+        return [item.text() for item in self]
+
+
+class ListItemComponent:
+    def __init__(self, list_item: Tag):
+        self._list_item = list_item
+
+    def text(self) -> str | None:
+        return self._list_item.string

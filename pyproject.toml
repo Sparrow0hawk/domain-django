@@ -17,8 +17,9 @@ dependencies = [
     "dj-database-url",
     "gunicorn",
     "inject",
-    "psycopg[binary]",
     "python-dotenv",
+    "pydantic~=2.6.0",
+    "psycopg[binary]",
     "whitenoise~=6.6.0"
 ]
 

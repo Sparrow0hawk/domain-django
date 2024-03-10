@@ -2,4 +2,15 @@
 
 {% block content %}
 <h1>{{ question_text }}</h1>
+    {% if choices %}
+        <ul>
+        {% for choice in choices %}
+            <li>{{ choice }}</li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>
+        This poll has no choices.
+        </p>
+    {% endif %}
 {% endblock %}

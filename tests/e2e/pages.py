@@ -52,6 +52,7 @@ class QuestionDetailPage:
     def __init__(self, page: Page):
         self._page = page
         self._question = self._page.get_by_role("heading")
+        self.choices = QuestionDetailListComponent(self._page.get_by_role("list"))
 
     @classmethod
     def open(cls, page: Page, live_server_url: str, id_: int) -> QuestionDetailPage:
@@ -61,3 +62,23 @@ class QuestionDetailPage:
     @property
     def question(self) -> str | None:
         return self._question.text_content()
+
+
+class QuestionDetailListComponent:
+    def __init__(self, list_: Locator):
+        self._list = list_
+
+    def __iter__(self) -> Iterator[ListItemComponent]:
+        return (ListItemComponent(item) for item in self._list.get_by_role("listitem").all())
+
+    def __call__(self) -> list[str | None]:
+        return [item.text for item in self]
+
+
+class ListItemComponent:
+    def __init__(self, list_item: Locator):
+        self._list_item = list_item
+
+    @property
+    def text(self) -> str | None:
+        return self._list_item.text_content()

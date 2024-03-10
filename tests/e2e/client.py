@@ -1,5 +1,5 @@
 from __future__ import annotations
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 
 import requests
 
@@ -25,3 +25,10 @@ class AppClient:
 class QuestionRepr:
     id: int
     question_text: str
+    choices: list[ChoiceRepr] = field(default_factory=list)
+
+
+@dataclass
+class ChoiceRepr:
+    id: int
+    choice_text: str
