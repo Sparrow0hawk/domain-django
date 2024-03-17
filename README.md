@@ -32,26 +32,13 @@ To use this project you will need:
    ```
 5. Use cURL to POST data to local app
    ```bash
-   curl -X POST --location "http://localhost:8000/polls/questions" \
-    -H "Accept: application/json" \
-    -d '[
-           {
-             "id": 1,
-             "question_text": "Who are you?"
-           },
-           {
-             "id": 2,
-             "question_text": "Do you prefer cats or dogs?"
-           },
-           {
-             "id": 3,
-             "question_text": "What is your favourite sandwich?"
-           },
-           {
-             "id": 4,
-             "question_text": "How much wood would a woodchuck chuck?"
-           }
-       ]'
+   # post data
+   chmod +x data/add-data.sh
+   ./data/add-data.sh
+   
+   # clear data
+   chmod +x data/clear-data.sh
+   ./data/clear-data.sh   
    ```
 6. Run tests
    ```bash
