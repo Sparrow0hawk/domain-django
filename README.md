@@ -53,7 +53,7 @@ To use this project you will need:
            }
        ]'
    ```
-6R. Run tests
+6. Run tests
    ```bash
    make test
    ```
