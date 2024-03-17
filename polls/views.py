@@ -8,6 +8,7 @@ from django.shortcuts import render
 from django.views.decorators.csrf import csrf_exempt
 from pydantic.dataclasses import dataclass as pydantic_dataclass
 
+from polls.auth import api_key_auth
 from polls.domain.questions import Question, QuestionRepository, Choice
 
 
@@ -61,6 +62,7 @@ class ChoiceRepr:
 
 
 @csrf_exempt
+@api_key_auth
 @inject.autoparams("questions")
 def questions_api(request: HttpRequest, questions: QuestionRepository) -> HttpResponse:
     if request.method == "POST":

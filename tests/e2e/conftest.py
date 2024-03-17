@@ -22,10 +22,11 @@ def browser_context_fixture(
 @pytest.fixture(name="settings_fixture", autouse=True)
 def settings(settings: django.conf.LazySettings) -> None:
     settings.DEBUG_PROPAGATE_EXCEPTIONS = True
+    settings.API_KEY = "marmite"
 
 
 @pytest.fixture(name="app_client")
 def app_client_fixture(live_server: LiveServer) -> Generator[AppClient, Any, Any]:
-    app_client = AppClient(live_server.url)
+    app_client = AppClient(live_server.url, api_key="marmite")
     yield app_client
     app_client.clear_questions()

@@ -2,11 +2,8 @@ import os
 from typing import List
 
 import dj_database_url
-from dotenv import load_dotenv
 
 from mysite.settings import *
-
-load_dotenv()
 
 DEBUG = False
 

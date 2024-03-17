@@ -1,3 +1,5 @@
+import pytest
+import django.conf
 from django.test import Client
 from django.urls import reverse
 
@@ -79,10 +81,15 @@ def test_question_details_shows_message_if_no_choices(
 
 
 class TestPollsAPI:
+    @pytest.fixture(name="settings_fixture", autouse=True)
+    def settings(self, settings: django.conf.LazySettings) -> None:
+        settings.API_KEY = "marmite"
+
     def test_polls_can_add_question(self, config: None, client: Client, questions: QuestionRepository) -> None:
         url = reverse("polls_questions")
         response = client.post(
             url,
+            headers={"Authorization": "API-key marmite"},
             data=[{"id": 1, "question_text": "What is your favourite sandwich?"}],
             content_type="application/json",
         )
@@ -97,6 +104,7 @@ class TestPollsAPI:
         url = reverse("polls_questions")
         response = client.post(
             url,
+            headers={"Authorization": "API-key marmite"},
             data=[
                 {
                     "id": 1,
@@ -116,7 +124,34 @@ class TestPollsAPI:
     def test_polls_can_clear_question(self, config: None, client: Client, questions: QuestionRepository) -> None:
         questions.add(Question(id_=1, question_text="What is your favourite sandwich?"))
         url = reverse("polls_questions")
-        response = client.delete(url)
+        response = client.delete(url, headers={"Authorization": "API-key marmite"})
 
         assert response.status_code == 204
         assert not questions.get_all()
+
+    def test_polls_cannot_add_question_when_wrong_credentials(
+        self, config: None, client: Client, questions: QuestionRepository
+    ) -> None:
+        url = reverse("polls_questions")
+        response = client.post(
+            url,
+            headers={"Authorization": "API-key vegemite"},
+            json=[{"id": 1, "question_text": "What is your favourite sandwich?"}],
+            content_type="application/json",
+        )
+
+        assert response.status_code == 401
+        assert not questions.get(1)
+
+
+class TestPollsAPIDisabled:
+    def test_polls_cannot_add_question(self, config: None, client: Client, questions: QuestionRepository) -> None:
+        url = reverse("polls_questions")
+        response = client.post(
+            url,
+            json=[{"id": 1, "question_text": "What is your favourite sandwich?"}],
+            content_type="application/json",
+        )
+
+        assert response.status_code == 401
+        assert not questions.get(1)

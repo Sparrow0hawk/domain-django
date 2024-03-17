@@ -7,9 +7,10 @@ import requests
 class AppClient:
     DEFAULT_TIMEOUT = 10
 
-    def __init__(self, url: str):
+    def __init__(self, url: str, api_key: str):
         self._url = url
         self._session = requests.Session()
+        self._session.headers.update({"Authorization": f"API-key {api_key}"})
 
     def add_questions(self, *questions: QuestionRepr) -> None:
         json = [asdict(question) for question in questions]
