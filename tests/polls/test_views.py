@@ -83,7 +83,7 @@ class TestPollsAPI:
         url = reverse("polls_questions")
         response = client.post(
             url,
-            [{"id": 1, "question_text": "What is your favourite sandwich?"}],
+            data=[{"id": 1, "question_text": "What is your favourite sandwich?"}],
             content_type="application/json",
         )
 
@@ -97,7 +97,7 @@ class TestPollsAPI:
         url = reverse("polls_questions")
         response = client.post(
             url,
-            [
+            data=[
                 {
                     "id": 1,
                     "question_text": "What is your favourite sandwich?",
