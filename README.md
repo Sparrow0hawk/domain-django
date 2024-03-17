@@ -1,3 +1,4 @@
+[![CI](https://github.com/Sparrow0hawk/django-minimal/actions/workflows/ci.yml/badge.svg)](https://github.com/Sparrow0hawk/django-minimal/actions/workflows/ci.yml)
 # Domain driven Django
 
 A Django project following the polls example in the Django tutorial but exploring some basic ideas from
