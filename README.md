@@ -1,11 +1,14 @@
-# Django minimal
+# Domain driven Django
 
-A simple Django setup following from Django tutorial (sort of).
+A Django project following the polls example in the Django tutorial but exploring some basic ideas from
+[Domain Driven Design](https://www.dddcommunity.org/book/evans_2003/) as well as exploring Django.
 
 ## Setup
 
 To use this project you will need:
 - Python 3.12
+- Docker
+- cURL (optional)
 
 1. Create virtual environment
    ```bash
