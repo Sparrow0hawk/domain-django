@@ -5,7 +5,7 @@ import pytest
 from inject import Binder
 
 from polls.domain.questions import QuestionRepository
-from tests.polls.fakes import MemoryQuestionRepository
+from tests.polls.views.fakes import MemoryQuestionRepository
 
 
 @pytest.fixture(name="config")
