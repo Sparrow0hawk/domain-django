@@ -19,10 +19,13 @@ from django.contrib import admin
 from django.urls import path
 
 import polls.views
+import polls.views.index
+import polls.views.question_api
+import polls.views.question_details
 
 urlpatterns = [
-    path("", polls.views.index, name="index"),
-    path("<int:question_id>/", polls.views.question_details, name="question_details"),
-    path("polls/questions", polls.views.questions_api, name="polls_questions"),
+    path("", polls.views.index.index, name="index"),
+    path("<int:question_id>/", polls.views.question_details.question_details, name="question_details"),
+    path("polls/questions", polls.views.question_api.questions_api, name="polls_questions"),
     path("admin/", admin.site.urls),
 ]
