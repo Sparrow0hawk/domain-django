@@ -2,7 +2,7 @@ from playwright.sync_api import Page
 from pytest_django.live_server_helper import LiveServer
 
 from tests.e2e.client import AppClient, QuestionRepr, ChoiceRepr
-from tests.e2e.pages import QuestionDetailPage
+from tests.e2e.pages import PollsPage
 
 
 def test_question_details_shows_question_and_choices(
@@ -20,7 +20,7 @@ def test_question_details_shows_question_and_choices(
         )
     )
 
-    question_detail_page = QuestionDetailPage.open(page, live_server.url, 1)
+    question_detail_page = PollsPage.open(page, live_server.url).table["What is the best sandwich?"].open()
 
     assert question_detail_page.question == "What is the best sandwich?"
     assert question_detail_page.choices() == ["Marmite and cheese", "Ham and cheese", "Cheese"]
