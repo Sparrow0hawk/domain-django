@@ -14,7 +14,7 @@ ruff:
 	$(bin)/ruff check
 
 ruff-fix:
-	$(bin)/ruff --fix
+	$(bin)/ruff check --fix
 
 test:
 	$(bin)/pytest
