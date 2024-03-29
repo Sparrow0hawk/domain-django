@@ -8,12 +8,12 @@ class TestQuestionDetailContext:
 
         context = QuestionDetailContext.from_domain(question)
 
-        assert context.question_text == "Who are you?" and not context.choices
+        assert context.id == 1 and context.question_text == "Who are you?" and not context.choices
 
     def test_from_domain_sets_choices(self) -> None:
         question = Question(id_=1, question_text="Who are you?")
-        question.add_choices(Choice(id_=1, choice_text="John Smith"))
+        question.add_choices(Choice(id_=1, choice_text="John Smith", votes=0))
 
         context = QuestionDetailContext.from_domain(question)
 
-        assert context.question_text == "Who are you?" and context.choices == ["John Smith"]
+        assert context.id == 1 and context.question_text == "Who are you?" and context.choices == ["John Smith"]

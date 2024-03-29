@@ -29,4 +29,11 @@ class TestChoiceRepr:
 
         choice = choice_repr.to_domain()
 
-        assert choice.id == 1 and choice.choice_text == "Marmite and cheese"
+        assert choice.id == 1 and choice.choice_text == "Marmite and cheese" and choice.votes == 0
+
+    def test_to_domain_sets_votes(self) -> None:
+        choice_repr = ChoiceRepr(id=1, choice_text="Marmite and cheese", votes=10)
+
+        choice = choice_repr.to_domain()
+
+        assert choice.id == 1 and choice.choice_text == "Marmite and cheese" and choice.votes == 10

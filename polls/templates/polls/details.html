@@ -3,11 +3,14 @@
 {% block content %}
 <h1>{{ question_text }}</h1>
     {% if choices %}
-        <ul>
+        <form method="post" action="{% url 'question_details' question_id=id %}" aria-label="foo">
+        {% csrf_token %}
         {% for choice in choices %}
-            <li>{{ choice }}</li>
+            <input type="radio" name="choice" id="choice-{{ forloop.counter }}" value="{{ choice }}">
+            <label for="choice-{{ forloop.counter }}">{{ choice }}</label>
         {% endfor %}
-        </ul>
+        <input type="submit" value="Vote">
+        </form>
     {% else %}
         <p>
         This poll has no choices.

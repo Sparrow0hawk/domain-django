@@ -56,28 +56,56 @@ class QuestionDetailPage(BasePage):
         question = self._soup.select_one("main h1")
         assert question
         self.question = question.string
-        choices = self._soup.select_one("ul")
-        self.choices = QuestionDetailListComponent(choices) if choices else None
+        choices = self._soup.select_one("main form")
+        self.choices = QuestionDetailFormComponent(choices) if choices else None
         paragraph = self._soup.select_one("p")
         self.no_choices_message_visible = (
             (paragraph.string or "").strip() == "This poll has no choices." if paragraph else False
         )
 
 
-class QuestionDetailListComponent:
-    def __init__(self, list_: Tag):
-        self._list = list_.select("li")
+class QuestionDetailFormComponent:
+    def __init__(self, form: Tag):
+        self._inputs = form.select("input")
 
-    def __iter__(self) -> Iterator[ListItemComponent]:
-        return (ListItemComponent(item) for item in self._list)
+    def __iter__(self) -> Iterator[RadioComponent]:
+        return (RadioComponent(input_) for input_ in self._inputs if input_["type"] == "radio")
 
-    def __call__(self) -> list[str | None]:
-        return [item.text() for item in self]
+    def __call__(self) -> list[str | list[str] | None]:
+        return [item.value for item in self]
 
 
-class ListItemComponent:
-    def __init__(self, list_item: Tag):
-        self._list_item = list_item
+class RadioComponent:
+    def __init__(self, input_: Tag):
+        self._list_item = input_
+        self.value = input_.get("value")
 
-    def text(self) -> str | None:
-        return self._list_item.string
+
+class QuestionResultsPage(BasePage):
+    def __init__(self, response: _MonkeyPatchedWSGIResponse):
+        super().__init__(response)
+        question = self._soup.select_one("main h1")
+        assert question
+        self.question = question.string
+        results = self._soup.select_one("table")
+        self.results = QuestionResultsTableComponent(results) if results else None
+
+
+class QuestionResultsTableComponent:
+    def __init__(self, table: Tag):
+        self._rows = table.select("tbody tr")
+
+    def __iter__(self) -> Iterator[QuestionResultsTableRowComponent]:
+        return (QuestionResultsTableRowComponent(row) for row in self._rows)
+
+    def __call__(self) -> dict[str | None, int]:
+        return {row.choice: row.votes for row in self}
+
+
+class QuestionResultsTableRowComponent:
+    def __init__(self, row: Tag):
+        cells = row.select("td")
+        self.choice = cells[0].string
+        votes = cells[1].string
+        assert votes
+        self.votes = int(votes)

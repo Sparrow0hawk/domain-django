@@ -11,11 +11,17 @@ class Question:
         for choice in choices:
             self.choices.append(choice)
 
+    def vote_for_choice(self, choice_text: str) -> None:
+        for choice in self.choices:
+            if choice.choice_text == choice_text:
+                choice.votes += 1
+
 
 class Choice:
-    def __init__(self, id_: int | None, choice_text: str):
+    def __init__(self, id_: int | None, choice_text: str, votes: int):
         self.id = id_
         self.choice_text = choice_text
+        self.votes = votes
 
 
 class QuestionRepository:
@@ -26,6 +32,9 @@ class QuestionRepository:
         raise NotImplementedError()
 
     def get_all(self) -> list[Question]:
+        raise NotImplementedError()
+
+    def update(self, question: Question) -> None:
         raise NotImplementedError()
 
     def clear(self) -> None:

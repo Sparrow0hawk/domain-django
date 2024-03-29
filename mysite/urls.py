@@ -22,10 +22,12 @@ import polls.views
 import polls.views.index
 import polls.views.question_api
 import polls.views.question_details
+import polls.views.question_results
 
 urlpatterns = [
     path("", polls.views.index.index, name="index"),
     path("<int:question_id>/", polls.views.question_details.question_details, name="question_details"),
+    path("<int:question_id>/results", polls.views.question_results.question_results, name="question_results"),
     path("polls/questions", polls.views.question_api.questions_api, name="polls_questions"),
     path("admin/", admin.site.urls),
 ]

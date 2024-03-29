@@ -45,6 +45,7 @@ class QuestionRepr:
 class ChoiceRepr:
     choice_text: str
     id: int | None = None
+    votes: int = 0
 
     def to_domain(self) -> Choice:
-        return Choice(id_=self.id, choice_text=self.choice_text)
+        return Choice(id_=self.id, choice_text=self.choice_text, votes=self.votes)

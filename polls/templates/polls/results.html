@@ -1,0 +1,23 @@
+{% extends 'polls/base.html' %}
+
+{% block content %}
+<h1>{{ question_text }}</h1>
+    
+        <table>
+            <thead>
+            <tr>
+                <th>Choice</th>
+                <th>Votes</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for choice in choices %}
+                    <tr>
+                        <td>{{ choice.choice_text }}</td>                        
+                        <td>{{ choice.votes }}</td>
+                    </tr>                    
+                {% endfor %}
+            </tbody>
+        </table>
+
+{% endblock %}

@@ -33,3 +33,4 @@ class QuestionRepr:
 class ChoiceRepr:
     id: int
     choice_text: str
+    votes: int

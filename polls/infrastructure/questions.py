@@ -34,6 +34,14 @@ class DatabaseQuestionRepository(QuestionRepository):
 
         return [question for question in get_all_generator()]
 
+    def update(self, question: Question) -> None:
+        question_entity = self._domain_to_entity(question)
+        question_entity.save()
+
+        for choice in question.choices:
+            choice_entity = self._choice_map_to_entity(choice, question_entity)
+            choice_entity.save()
+
     def clear(self) -> None:
         QuestionEntity.objects.all().delete()
 
@@ -47,8 +55,8 @@ class DatabaseQuestionRepository(QuestionRepository):
 
     @staticmethod
     def _choice_map_to_domain(choice_entity: ChoiceEntity) -> Choice:
-        return Choice(id_=choice_entity.id, choice_text=choice_entity.choice_text)
+        return Choice(id_=choice_entity.id, choice_text=choice_entity.choice_text, votes=choice_entity.votes)
 
     @staticmethod
     def _choice_map_to_entity(choice: Choice, question_entity: QuestionEntity) -> ChoiceEntity:
-        return ChoiceEntity(id=choice.id, choice_text=choice.choice_text, question=question_entity)
+        return ChoiceEntity(id=choice.id, choice_text=choice.choice_text, votes=choice.votes, question=question_entity)

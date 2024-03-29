@@ -52,7 +52,8 @@ class QuestionDetailPage:
     def __init__(self, page: Page):
         self._page = page
         self._question = self._page.get_by_role("heading")
-        self.choices = QuestionDetailListComponent(self._page.get_by_role("list"))
+        main = self._page.get_by_role("main")
+        self.choices = QuestionDetailFormComponent(main.get_by_role("form"))
 
     @classmethod
     def open(cls, page: Page, live_server_url: str, id_: int) -> QuestionDetailPage:
@@ -64,21 +65,74 @@ class QuestionDetailPage:
         return self._question.text_content()
 
 
-class QuestionDetailListComponent:
-    def __init__(self, list_: Locator):
-        self._list = list_
+class QuestionDetailFormComponent:
+    def __init__(self, form: Locator):
+        self._form = form
+        self._submit = form.get_by_text("Vote")
 
-    def __iter__(self) -> Iterator[ListItemComponent]:
-        return (ListItemComponent(item) for item in self._list.get_by_role("listitem").all())
+    def __iter__(self) -> Iterator[RadioComponent]:
+        return (RadioComponent(item, self._form) for item in self._form.get_by_role("radio").all())
 
     def __call__(self) -> list[str | None]:
-        return [item.text for item in self]
+        return [item.value for item in self]
+
+    def __getitem__(self, item: str) -> RadioComponent:
+        return next(radio_item for radio_item in self if radio_item.value == item)
+
+    def submit(self) -> QuestionResultsPage:
+        self._submit.click()
+        return QuestionResultsPage(self._form.page)
 
 
-class ListItemComponent:
-    def __init__(self, list_item: Locator):
-        self._list_item = list_item
+class QuestionResultsPage:
+    def __init__(self, page: Page):
+        self._page = page
+        self._question = page.get_by_role("heading")
+        self._results = QuestionResultsTableComponent(self._page.get_by_role("table"))
 
     @property
-    def text(self) -> str | None:
-        return self._list_item.text_content()
+    def question(self) -> str | None:
+        return self._question.text_content()
+
+    def results(self) -> dict[str | None, int]:
+        return self._results.as_dict()
+
+
+class QuestionResultsTableComponent:
+    def __init__(self, table: Locator):
+        self._table = table
+
+    def __iter__(self) -> Iterator[QuestionResultsTableRowComponent]:
+        return (QuestionResultsTableRowComponent(row) for row in self._table.get_by_role("row").all()[1:])
+
+    def as_dict(self) -> dict[str | None, int]:
+        return {row.choice: row.votes for row in self}
+
+
+class QuestionResultsTableRowComponent:
+    def __init__(self, row: Locator):
+        self._row = row
+
+    @property
+    def choice(self) -> str | None:
+        choice = self._row.get_by_role("cell").nth(0)
+        return choice.text_content()
+
+    @property
+    def votes(self) -> int:
+        votes = self._row.get_by_role("cell").nth(1)
+        return int(votes.text_content() or 0)
+
+
+class RadioComponent:
+    def __init__(self, input_: Locator, form: Locator):
+        self._input = input_
+        self._form = form
+
+    @property
+    def value(self) -> str | None:
+        return self._input.input_value()
+
+    def check(self) -> QuestionDetailFormComponent:
+        self._input.check()
+        return QuestionDetailFormComponent(self._form)
