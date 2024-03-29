@@ -9,7 +9,7 @@ DEBUG = False
 
 ALLOWED_HOSTS.append("django-polls.fly.dev")
 
-CSRF_TRUSTED_ORIGINS: List[str] = ["django-polls"]
+CSRF_TRUSTED_ORIGINS: List[str] = ["https://django-polls.fly.dev"]
 
 SECRET_KEY = os.environ["SECRET_KEY"]
 
