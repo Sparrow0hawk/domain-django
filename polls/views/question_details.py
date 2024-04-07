@@ -1,8 +1,10 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field, asdict
+from dataclasses import dataclass, asdict
+from typing import Any
 
 import inject
+from django.forms import Form, ChoiceField, RadioSelect
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
@@ -29,12 +31,23 @@ def question_details(request: HttpRequest, question_id: int, question_repository
 class QuestionDetailContext:
     id: int
     question_text: str
-    choices: list[str] = field(default_factory=list)
+    choices: VoteForm
 
     @classmethod
     def from_domain(cls, question: Question) -> QuestionDetailContext:
         return cls(
             id=question.id,
             question_text=question.question_text,
-            choices=[choice.choice_text for choice in question.choices],
+            choices=VoteForm(choice_options=[choice.choice_text for choice in question.choices]),
         )
+
+
+class VoteForm(Form):
+    choice = ChoiceField(widget=RadioSelect())
+
+    def __init__(self, choice_options: list[str], *args: Any, **kwargs: Any):
+        super().__init__(*args, **kwargs)
+        choice_field = self.fields["choice"]
+        assert isinstance(choice_field, ChoiceField)
+        choice_field_data = [(label, value) for label, value in zip(choice_options, choice_options)]
+        choice_field.choices = choice_field_data

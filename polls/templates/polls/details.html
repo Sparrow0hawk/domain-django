@@ -2,13 +2,10 @@
 
 {% block content %}
 <h1>{{ question_text }}</h1>
-    {% if choices %}
+    {% if choices.fields.choice.choices %}
         <form method="post" action="{% url 'question_details' question_id=id %}" aria-label="foo">
         {% csrf_token %}
-        {% for choice in choices %}
-            <input type="radio" name="choice" id="choice-{{ forloop.counter }}" value="{{ choice }}">
-            <label for="choice-{{ forloop.counter }}">{{ choice }}</label>
-        {% endfor %}
+        {{ choices }}    
         <input type="submit" value="Vote">
         </form>
     {% else %}
