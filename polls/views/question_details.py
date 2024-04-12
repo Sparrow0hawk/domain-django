@@ -20,9 +20,14 @@ def question_details(request: HttpRequest, question_id: int, question_repository
         context = QuestionDetailContext.from_domain(question)
         return render(request, "polls/details.html", asdict(context))
     elif request.method == "POST":
-        choice = request.POST["choice"]
-        question.vote_for_choice(choice_text=choice)
+        form = VoteForm.from_domain(question, request.POST)
+
+        if not form.is_valid():
+            question_details(request.GET, question_id)
+
+        form.update_domain(question)
         question_repository.update(question)
+
         return HttpResponseRedirect(reverse("question_results", args=(question.id,)))
     return HttpResponse(status=405)
 
@@ -55,3 +60,7 @@ class VoteForm(Form):
     @classmethod
     def from_domain(cls, question: Question, *args: Any, **kwargs: Any) -> VoteForm:
         return VoteForm([choice.choice_text for choice in question.choices], *args, **kwargs)
+
+    def update_domain(self, question: Question) -> None:
+        if self.cleaned_data["choice"]:
+            question.vote_for_choice(self.cleaned_data["choice"])

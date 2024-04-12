@@ -52,3 +52,30 @@ class TestVoteForm:
                 ("Jane Smith", "Jane Smith"),
             ]
         )
+
+    def test_update_domain(self) -> None:
+        question = Question(id_=1, question_text="Who are you?")
+        question.add_choices(
+            Choice(id_=2, choice_text="John Smith", votes=0), Choice(id_=3, choice_text="Jane Smith", votes=0)
+        )
+
+        form = VoteForm.from_domain(question, data={"choice": "John Smith"})
+        form.is_valid()
+        form.update_domain(question)
+
+        choice1: Choice
+        choice2: Choice
+        (choice1, choice2) = question.choices
+        assert choice1.id == 2 and choice1.votes == 1 and choice2.id == 3 and choice2.votes == 0
+
+    def test_form_choice_must_be_a_choice(self) -> None:
+        question = Question(id_=1, question_text="Who are you?")
+        question.add_choices(
+            Choice(id_=2, choice_text="John Smith", votes=0), Choice(id_=3, choice_text="Jane Smith", votes=0)
+        )
+
+        form = VoteForm.from_domain(question, data={"choice": "Rob Smith"})
+
+        form.is_valid()
+
+        assert "Select a valid choice. Rob Smith is not one of the available choices." in form.errors["choice"]
