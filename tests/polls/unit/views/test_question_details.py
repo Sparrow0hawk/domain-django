@@ -34,8 +34,13 @@ class TestQuestionDetailContext:
 
 
 class TestVoteForm:
-    def test_create(self) -> None:
-        form = VoteForm(choice_options=["John Smith", "Jane Smith"])
+    def test_from_domain(self) -> None:
+        question = Question(id_=1, question_text="Who are you?")
+        question.add_choices(
+            Choice(id_=2, choice_text="John Smith", votes=0), Choice(id_=3, choice_text="Jane Smith", votes=0)
+        )
+
+        form = VoteForm.from_domain(question)
         form_choice_field = form.fields["choice"]
 
         assert (

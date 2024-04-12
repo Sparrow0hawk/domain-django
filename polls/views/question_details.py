@@ -34,11 +34,11 @@ class QuestionDetailContext:
     choices: VoteForm
 
     @classmethod
-    def from_domain(cls, question: Question) -> QuestionDetailContext:
+    def from_domain(cls, question: Question, *args: Any, **kwargs: Any) -> QuestionDetailContext:
         return cls(
             id=question.id,
             question_text=question.question_text,
-            choices=VoteForm(choice_options=[choice.choice_text for choice in question.choices]),
+            choices=VoteForm.from_domain(question, *args, **kwargs),
         )
 
 
@@ -51,3 +51,7 @@ class VoteForm(Form):
         assert isinstance(choice_field, ChoiceField)
         choice_field_data = [(label, value) for label, value in zip(choice_options, choice_options)]
         choice_field.choices = choice_field_data
+
+    @classmethod
+    def from_domain(cls, question: Question, *args: Any, **kwargs: Any) -> VoteForm:
+        return VoteForm([choice.choice_text for choice in question.choices], *args, **kwargs)
