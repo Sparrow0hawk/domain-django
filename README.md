@@ -9,6 +9,7 @@ A Django project following the polls example in the Django tutorial but explorin
 To use this project you will need:
 - Python 3.12
 - Docker
+- Node 21
 - cURL (optional)
 
 1. Create virtual environment
@@ -30,11 +31,19 @@ To use this project you will need:
    ```bash
    .venv/bin/python manage.py collectstatic
    ```
-4. Start Django app on http://127.0.0.1:8000
+4. Install NPM package
+   ```bash
+   npm install
+   ```
+5. Build web assets
+   ```bash
+   npm run build
+   ```
+6. Start Django app on http://127.0.0.1:8000
    ```bash
    python manage.py runserver
    ```
-5. Use cURL to POST data to local app
+7. Use cURL to POST data to local app
    ```bash
    # post data
    chmod +x data/add-data.sh
@@ -44,11 +53,11 @@ To use this project you will need:
    chmod +x data/clear-data.sh
    ./data/clear-data.sh   
    ```
-6. Run tests
+8. Run tests
    ```bash
    make test
    ```
-7. Run full build
+9. Run full build
    ```bash
    make verify
    ```
