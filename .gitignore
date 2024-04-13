@@ -14,3 +14,6 @@
 
 # static
 static/
+
+# npm
+node_modules

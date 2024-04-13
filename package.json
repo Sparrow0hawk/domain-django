@@ -1,0 +1,23 @@
+{
+  "name": "domain-django",
+  "version": "1.0.0",
+  "description": "Domain driven Django",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "npm run make-css-dir && npm run copy-simeplecss",
+    "copy-simeplecss": "cp node_modules/simpledotcss/simple.min.css static/css/simple.min.css",
+    "make-css-dir": "mkdir -p static/css"
+  },
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": "21",
+    "npm": "10"
+  },
+  "dependencies": {
+    "simpledotcss": "^2.3.0"
+  }
+}
